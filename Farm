@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 local Chapter = _G.Chapter or 1
 local Level = _G.Level or 10
 
@@ -21,16 +28,16 @@ end
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "TBB_GUI"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
 
 local Button = Instance.new("TextButton")
-Button.Size = UDim2.new(0, 350, 0, 100)
-Button.Position = UDim2.new(0.5, 0, 0, 0)
+Button.Size = UDim2.new(1, 0, 1, 0)
+Button.Position = UDim2.new(0, 0, 0, 0)
 Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-Button.BackgroundTransparency = 0.4
+Button.BackgroundTransparency = 0.5
 Button.Font = Enum.Font.SourceSansBold
-Button.TextSize = 10
-Button.Text = "The Battle Bricks Farm"
+Button.TextSize = 20
+Button.Text = "Farm XP : OFF"
 Button.Parent = ScreenGui
 
 Instance.new("UICorner", Button)
@@ -43,7 +50,10 @@ uigradient.Color = ColorSequence.new({
 			})
 uigradient.Parent = Button
 local XPOld = game:GetService("Players").LocalPlayer.PlayerGui.MainMenu.Lobby.Currency.XP.Amount.Text
-game:GetService("RunService").RenderStepped:Connect(function()
+Button.MouseButton1Click:Connect(function()
+Default = not Default
+if Default then
+AF = game:GetService("RunService").RenderStepped:Connect(function()
 local XPNew = game:GetService("Players").LocalPlayer.PlayerGui.MainMenu.Lobby.Currency.XP.Amount.Text
 Button.Text = "The Battle Bricks Farm XP | XP-OLD : " .. XPOld .. " | XP+ : " .. XPNew - XPOld .. " | XP-NOW : " .. XPNew .. "\n Chapter : " .. Chapter .. " | Level : " .. Level
 local args = {
@@ -69,4 +79,76 @@ local args = {
 	1
 }
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("StartBattle"):InvokeServer(unpack(args))
+end)
+else
+Button.Text = "Farm XP : OFF"
+AF:Disconnect()
+end
+end)
+local ScreenGui2 = Instance.new("ScreenGui")
+ScreenGui2.Name = "TG"
+ScreenGui2.ResetOnSpawn = false
+ScreenGui2.Parent = game.CoreGui
+
+local Button2 = Instance.new("TextButton")
+Button2.Size = UDim2.new(0.1,0,0.1,0)
+Button2.Position = UDim2.new(0, 0, 0, 0)
+Button2.TextColor3 = Color3.fromRGB(255, 255, 255)
+Button2.BackgroundTransparency = 0
+Button2.Font = Enum.Font.SourceSansBold
+Button2.TextSize = 15
+Button2.Text = "Toggle UI"
+Button2.Parent = Frame
+
+local dragging = false
+local dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    Button2.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+ 
+Button2.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = Button2.Position
+ 
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+ 
+Button2.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+ 
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
+
+Instance.new("UICorner", Button2)
+local uis = Instance.new("UIStroke", Button2)
+uis.Thickness = 1.1
+local uigradient = Instance.new("UIGradient", Button2)
+uigradient.Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255,0,255)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(255,0,200)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(100,0,255))
+			})
+local Default = false
+Button2.MouseButton1Click:Connect(function()
+Default = not Default
+if Default then
+ScreenGui.Enabled = false
+else
+ScreenGui.Enabled = true
+end
 end)
