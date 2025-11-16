@@ -24,26 +24,28 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = game.CoreGui
 
 local Button = Instance.new("TextButton")
-Button.Size = UDim2.new(0, 150, 0, 50)
-Button.Position = UDim2.new(0.85, 0, 0, 10)
-Button.BackgroundColor3 = Color3.fromRGB(22,22,22)
+Button.Size = UDim2.new(0, 350, 0, 100)
+Button.Position = UDim2.new(0.5, 0, 0, 0)
 Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+Button.BackgroundTransparency = 0.4
 Button.Font = Enum.Font.SourceSansBold
-Button.TextScaled = true
-Button.Text = "Auto Slot 1,2,3"
+Button.TextSize = 10
+Button.Text = "The Battle Bricks Farm"
 Button.Parent = ScreenGui
 
 Instance.new("UICorner", Button)
-
+Instance.new("UIStroke", Button)
 local uigradient = Instance.new("UIGradient")
-uigradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(0.996078, 0.0392157, 0)), ColorSequenceKeypoint.new(0.1599999964237213, Color3.new(1, 0.615686, 0)), ColorSequenceKeypoint.new(0.3199999928474426, Color3.new(1, 1, 0)), ColorSequenceKeypoint.new(0.47999998927116394, Color3.new(0, 1, 0)), ColorSequenceKeypoint.new(0.6399999856948853, Color3.new(0, 0.666667, 1)), ColorSequenceKeypoint.new(0.800000011920929, Color3.new(1, 0.333333, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.666667, 0, 1))})
+uigradient.Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255,0,255)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(255,0,200)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(100,0,255))
+			})
 uigradient.Parent = Button
-
-local E = true
-Button.MouseButton1Click:Connect(function()
-E = not E
+local XPOld = game:GetService("Players").LocalPlayer.PlayerGui.MainMenu.Lobby.Currency.XP.Amount.Text
 game:GetService("RunService").RenderStepped:Connect(function()
-if E and true or false then
+local XPNew = game:GetService("Players").LocalPlayer.PlayerGui.MainMenu.Lobby.Currency.XP.Amount.Text
+Button.Text = "The Battle Bricks Farm XP | XP-OLD : " .. XPOld .. " | XP+ : " .. XPNew - XPOld .. " | XP-NOW : " .. XPNew .. "\n Chapter : " .. Chapter .. " | Level : " .. Level
 local args = {
 	"Slot1"
 }
@@ -55,7 +57,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Remote
 local args = {
 	"Slot2"
 }
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("PlayerSpawn"):InvokeServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("PlayerSpawn"):InvokeServer(unpack(args)) 
 local args = {
 	"Chapter" .. Chapter,
 	Level,
@@ -67,6 +69,4 @@ local args = {
 	1
 }
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("StartBattle"):InvokeServer(unpack(args))
-end
-end)
 end)
