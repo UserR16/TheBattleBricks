@@ -98,7 +98,7 @@ Button2.BackgroundTransparency = 0
 Button2.Font = Enum.Font.SourceSansBold
 Button2.TextSize = 15
 Button2.Text = "Toggle UI"
-Button2.Parent = Frame
+Button2.Parent = ScreenGui
 
 local dragging = false
 local dragInput, dragStart, startPos
