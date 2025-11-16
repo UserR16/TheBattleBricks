@@ -34,8 +34,10 @@ Button.Text = "Auto Slot 1,2,3"
 Button.Parent = ScreenGui
 
 Instance.new("UICorner", Button)
-local Gradient = Instance.new("UIGradient", Button)
 
+local uigradient = Instance.new("UIGradient")
+uigradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(0.996078, 0.0392157, 0)), ColorSequenceKeypoint.new(0.1599999964237213, Color3.new(1, 0.615686, 0)), ColorSequenceKeypoint.new(0.3199999928474426, Color3.new(1, 1, 0)), ColorSequenceKeypoint.new(0.47999998927116394, Color3.new(0, 1, 0)), ColorSequenceKeypoint.new(0.6399999856948853, Color3.new(0, 0.666667, 1)), ColorSequenceKeypoint.new(0.800000011920929, Color3.new(1, 0.333333, 1)), ColorSequenceKeypoint.new(1, Color3.new(0.666667, 0, 1))})
+uigradient.Parent = Button
 
 local E = true
 Button.MouseButton1Click:Connect(function()
