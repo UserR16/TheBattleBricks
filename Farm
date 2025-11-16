@@ -1,20 +1,41 @@
 local Chapter = _G.Chapter or 1
 local Level = _G.Level or 10
 
+local GC = getconnections or get_signal_cons
+if GC then
+for i,v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+if v["Disable"] then
+v["Disable"](v)
+elseif v["Disconnect"] then
+v["Disconnect"](v)
+end
+end
+else
+game.Players.LocalPlayer.Idled:Connect(function()
+local VirtualUser = game:GetService("VirtualUser")
+VirtualUser:CaptureController()
+VirtualUser:ClickButton2(Vector2.new())
+end)
+end
+
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "AimbotGUI"
+ScreenGui.Name = "TBB_GUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = game.CoreGui
 
 local Button = Instance.new("TextButton")
 Button.Size = UDim2.new(0, 150, 0, 50)
 Button.Position = UDim2.new(0.85, 0, 0, 10)
-Button.BackgroundColor3 = Color3.fromRGB(55,55,55)
+Button.BackgroundColor3 = Color3.fromRGB(22,22,22)
 Button.TextColor3 = Color3.fromRGB(255, 255, 255)
 Button.Font = Enum.Font.SourceSansBold
-Button.TextSize = 14
+Button.TextScaled = true
 Button.Text = "Auto Slot 1,2,3"
 Button.Parent = ScreenGui
+
+Instance.new("UICorner", Button)
+local Gradient = Instance.new("UIGradient", Button)
+
 
 local E = true
 Button.MouseButton1Click:Connect(function()
