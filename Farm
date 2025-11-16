@@ -1,0 +1,49 @@
+local Chapter = _G.Chapter or 1
+local Level = _G.Level or 10
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AimbotGUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.CoreGui
+
+local Button = Instance.new("TextButton")
+Button.Size = UDim2.new(0, 150, 0, 50)
+Button.Position = UDim2.new(0.85, 0, 0, 10)
+Button.BackgroundColor3 = Color3.fromRGB(55,55,55)
+Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+Button.Font = Enum.Font.SourceSansBold
+Button.TextSize = 14
+Button.Text = "Auto Slot 1,2,3"
+Button.Parent = ScreenGui
+
+local E = true
+Button.MouseButton1Click:Connect(function()
+E = not E
+game:GetService("RunService").RenderStepped:Connect(function()
+if E and true or false then
+local args = {
+	"Slot1"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("PlayerSpawn"):InvokeServer(unpack(args))
+local args = {
+	"Slot3"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("PlayerSpawn"):InvokeServer(unpack(args))
+local args = {
+	"Slot2"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("PlayerSpawn"):InvokeServer(unpack(args))
+local args = {
+	"Chapter" .. Chapter,
+	Level,
+	1,
+	1,
+	false,
+	{},
+	false,
+	1
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunction"):WaitForChild("StartBattle"):InvokeServer(unpack(args))
+end
+end)
+end)
